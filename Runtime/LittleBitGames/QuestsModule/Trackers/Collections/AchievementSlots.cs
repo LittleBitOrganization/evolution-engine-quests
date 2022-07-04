@@ -6,8 +6,7 @@ using LittleBitGames.QuestsModule.Trackers.Models;
 
 namespace LittleBitGames.QuestsModule.Trackers.Collections
 {
-    public class AchievementSlots :
-        IReadOnlyContainer<string, ITrackable>
+    public class AchievementSlots : IReadOnlyContainer<string, ITrackable>
     {
         public ReadOnlyDictionary<string, ITrackable> Items => new(_items);
 
