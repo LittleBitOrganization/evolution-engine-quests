@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace LittleBitGames.QuestsModule.Trackers
 {
+    [CreateAssetMenu(fileName = "QuestLibrary", menuName = "Configs/Quests/QuestLibrary")]
     public class QuestLibrary : ScriptableObject, IQuestLibrary
     {
         [SerializeField] private List<QuestConfig> configs;

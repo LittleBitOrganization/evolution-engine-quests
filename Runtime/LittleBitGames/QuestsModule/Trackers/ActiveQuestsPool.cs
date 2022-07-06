@@ -14,11 +14,11 @@ namespace LittleBitGames.QuestsModule.Trackers
         private readonly IQuestFactory _questFactory;
         private readonly IQuestSelector _selector;
 
-        public IReadOnlyList<PooledQuest> Quests =>
-            new List<PooledQuest>(_quests).AsReadOnly();
-
         private readonly PooledQuest[] _quests;
 
+        public IReadOnlyList<PooledQuest> Quests =>
+            new List<PooledQuest>(_quests).AsReadOnly();
+        
         public ActiveQuestsPool(IQuestSelector selector, IQuestFactory questFactory)
         {
             _quests = new PooledQuest[PoolSize];
@@ -31,7 +31,8 @@ namespace LittleBitGames.QuestsModule.Trackers
 
         private void AppendInitialQuests()
         {
-            for (var i = 0; i < PoolSize; i++) AppendQuest(GetQuestСonfig(), i);
+            for (var i = 0; i < PoolSize; i++) 
+                AppendQuest(GetQuestСonfig(), i);
         }
 
         private QuestConfig GetQuestСonfig()
