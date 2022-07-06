@@ -22,7 +22,7 @@ namespace LittleBitGames.QuestsModule.Factories
             => data switch
             {
                 IEventTrackingData eventTrackerData => GetEventTracker(eventTrackerData),
-                ISlotTrackingData slotTrackingData =>  GetAchievementTracker(slotTrackingData),
+                ISlotTrackingData slotTrackingData => GetAchievementTracker(slotTrackingData),
                 _ => throw new ArgumentOutOfRangeException(nameof(data), data, null)
             };
 
@@ -37,10 +37,10 @@ namespace LittleBitGames.QuestsModule.Factories
 
             return trackerController;
         }
-        
+
         private ITrackerController GetEventTracker(IEventTrackingData data) =>
             GetCachedTracker(data) ?? CreateTracker(data, _eventTrackerFactory);
-        
+
         private ITrackerController GetAchievementTracker(ISlotTrackingData data) =>
             GetCachedTracker(data) ?? CreateTracker(data, _achievementTrackerFactory);
     }

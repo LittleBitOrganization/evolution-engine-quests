@@ -7,7 +7,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Models
 {
     public class AchievementSlotModel : ITrackable
     {
-        [field: SerializeField] public double Value { get; }
+        [field: SerializeField] public double Value { get; private set; }
         public IKeyHolder KeyHolder { get; }
         public event Action<double> OnValueChange;
 
@@ -15,6 +15,18 @@ namespace LittleBitGames.QuestsModule.Trackers.Models
         {
             KeyHolder = keyHolder;
             Value = value;
+        }
+
+        public void SetNewValue(double value)
+        {
+            Value = value;
+            OnValueChange?.Invoke(Value);
+        }
+
+        public void IncreaseValue(double value)
+        {
+            Value += value;
+            OnValueChange?.Invoke(Value);
         }
     }
 }
