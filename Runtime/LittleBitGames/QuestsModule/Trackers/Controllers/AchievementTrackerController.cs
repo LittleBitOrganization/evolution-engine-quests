@@ -14,7 +14,11 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
         public AchievementTrackerController(AchievementTrackerModel model)
             => _model = model;
 
-        public void StartTracking() => Subscribe();
+        public void StartTracking()
+        {
+            Subscribe();
+            OnValueChange(_model.TrackableSlot.Value);
+        }
 
         private void Subscribe()
         {
