@@ -1,8 +1,10 @@
+using System;
 using LittleBit.Modules.Description;
 
 namespace LittleBitGames.QuestsModule
 {
-    internal class ResourceConfigInterfaceContainer : IUnifiedContainer<IResourceConfig>
+    [Serializable]
+    public class ResourceConfigInterfaceContainer : IUnifiedContainer<IResourceConfig>
     {
     
     }
