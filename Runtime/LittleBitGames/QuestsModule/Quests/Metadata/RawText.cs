@@ -7,7 +7,7 @@ using UnityEngine;
 namespace LittleBitGames.QuestsModule.Quests.Metadata
 {
     [Serializable]
-    public class QuestDescription : IQuestDescription
+    public class RawText : IFormattableText
     {
         [field: SerializeField, ResizableTextArea] public string RawValue { get; private set; }
 

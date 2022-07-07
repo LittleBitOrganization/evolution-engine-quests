@@ -11,10 +11,10 @@ namespace LittleBitGames.QuestsModule.Quests.Metadata
         public string Key { get; private set; }
 
         [field: SerializeField]
-        public string Name { get; private set; }
+        public RawText Name { get; private set; }
 
         [field: SerializeField]
-        public QuestDescription Description { get; private set; }
+        public RawText Description { get; private set; }
     
         [field: SerializeField]
         public QuestCategory Category { get; private set; }
