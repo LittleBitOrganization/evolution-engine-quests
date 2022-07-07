@@ -8,6 +8,7 @@ namespace LittleBitGames.QuestsModule.Configs
         [field: SerializeField]
         public TrackRelativity TrackRelativity { get; private set; }
 
-        public double TargetValue { get; }
+        [field: SerializeField]
+        public double TargetValue { get; private set; }
     }
 }
