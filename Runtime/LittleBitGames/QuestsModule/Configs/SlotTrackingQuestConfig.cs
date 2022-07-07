@@ -6,7 +6,7 @@ namespace LittleBitGames.QuestsModule.Configs
     public abstract class SlotTrackingQuestConfig : QuestConfig, ISlotTrackingData
     {
         [field: SerializeField]
-        public TrackRelativity TrackRelativity { get; }
+        public TrackRelativity TrackRelativity { get; private set; }
 
         public double TargetValue { get; }
     }
