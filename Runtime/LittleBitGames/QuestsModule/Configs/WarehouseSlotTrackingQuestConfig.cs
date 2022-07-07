@@ -1,6 +1,7 @@
 using System.IO;
 using LittleBit.Modules.Description;
 using LittleBit.Modules.Warehouse.Configs;
+using LittleBit.Modules.Warehouse.Configs.Infrastructure.New;
 using LittleBitGames.QuestsModule.Trackers.Models;
 using NaughtyAttributes;
 using UnityEngine;
@@ -11,10 +12,10 @@ namespace LittleBitGames.QuestsModule.Configs
     public class WarehouseSlotTrackingQuestConfig : SlotTrackingQuestConfig, IWarehouseSlotTrackingData
     {
         [SerializeField] private ResourceConfigInterfaceContainer resourceConfig;
-        [SerializeField] private WarehouseConfig warehouseConfig;
+        [SerializeField] private WarehouseConfigSO warehouseConfig;
 
         public IResourceConfig ResourceConfig => resourceConfig.Result;
-        public IKeyHolder WarehouseKeyHolder => warehouseConfig;
+        public WarehouseConfig WarehouseConfig => warehouseConfig.Config;
 
 
         [Button]
@@ -25,7 +26,7 @@ namespace LittleBitGames.QuestsModule.Configs
             var key = Path.Combine(
                 prefix,
                 TrackRelativity.ToString()[..3].ToLower(),
-                WarehouseKeyHolder is null ? "missing_warehouse" : WarehouseKeyHolder.GetKey(),
+                WarehouseConfig is null ? "missing_warehouse" : WarehouseConfig.GetKey(),
                 ResourceConfig is null ? "missing_resource_config" : ResourceConfig.GetKey(),
                 TargetValue.ToString());
 

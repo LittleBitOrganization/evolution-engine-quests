@@ -42,7 +42,7 @@ namespace LittleBitGames.QuestsModule.Factories
             IWarehouseSlotTrackingData trackingData,
             ITrackable trackable)
         {
-            var warehouseSlotKey = trackingData.WarehouseKeyHolder.GetKey();
+            var warehouseSlotKey = trackingData.WarehouseConfig.GetKey();
             var resourceKey = trackingData.ResourceConfig.GetKey();
 
             var trackableSlotKey = Path.Combine(warehouseSlotKey, resourceKey);
@@ -72,7 +72,7 @@ namespace LittleBitGames.QuestsModule.Factories
         }
 
         private ITrackable GetWarehouseSlotAsTrackable(IWarehouseSlotTrackingData data)
-            => _warehousesContainer.TryGetItem(data.WarehouseKeyHolder.GetKey()).GetSlotTrackable(data.ResourceConfig);
+            => _warehousesContainer.TryGetItem(data.WarehouseConfig).GetSlotTrackable(data.ResourceConfig);
 
         private ITrackable GetAchievementSlotAsTrackable(IAchievementSlotTrackingData data)
             => _achievementSlots.TryGetItem(data.AchievementSlotKeyHolder.GetKey());
