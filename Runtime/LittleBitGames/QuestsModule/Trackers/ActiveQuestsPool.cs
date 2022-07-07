@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using LittleBitGames.QuestsModule.Configs;
 using LittleBitGames.QuestsModule.Extensions;
@@ -15,6 +16,8 @@ namespace LittleBitGames.QuestsModule.Trackers
         private readonly IQuestSelector _selector;
 
         private readonly PooledQuest[] _quests;
+
+        public event Action<PooledQuest> OnQuestPooled; 
 
         public IReadOnlyList<PooledQuest> Quests =>
             new List<PooledQuest>(_quests).AsReadOnly();

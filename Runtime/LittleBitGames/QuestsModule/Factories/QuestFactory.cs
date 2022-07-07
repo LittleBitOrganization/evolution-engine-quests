@@ -10,7 +10,7 @@ namespace LittleBitGames.QuestsModule.Factories
         private readonly ICreator _creator;
         private readonly IRewardFactory _rewardFactory;
         private readonly ITrackerProvider _trackerProvider;
-
+        
         public QuestFactory(ICreator creator)
         {
             _creator = creator;
@@ -33,7 +33,7 @@ namespace LittleBitGames.QuestsModule.Factories
                 _creator.Instantiate<QuestController>(model);
 
             goalTracker.StartTracking();
-
+            
             return controller;
         }
     }
