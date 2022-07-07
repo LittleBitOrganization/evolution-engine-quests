@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using LittleBitGames.QuestsModule.Common;
 using LittleBitGames.QuestsModule.Configs;
 using LittleBitGames.QuestsModule.Extensions;
 using LittleBitGames.QuestsModule.Factories;
@@ -11,17 +12,17 @@ namespace LittleBitGames.QuestsModule.Trackers
     public class ActiveQuestsPool
     {
         public const int PoolSize = 3;
-        
+
         private readonly IQuestFactory _questFactory;
         private readonly IQuestSelector _selector;
 
         private readonly PooledQuest[] _quests;
 
-        public event Action<PooledQuest> OnQuestPooled; 
+        public event Action<PooledQuest> OnQuestPooled;
 
         public IReadOnlyList<PooledQuest> Quests =>
             new List<PooledQuest>(_quests).AsReadOnly();
-        
+
         public ActiveQuestsPool(IQuestSelector selector, IQuestFactory questFactory)
         {
             _quests = new PooledQuest[PoolSize];
@@ -34,7 +35,7 @@ namespace LittleBitGames.QuestsModule.Trackers
 
         private void AppendInitialQuests()
         {
-            for (var i = 0; i < PoolSize; i++) 
+            for (var i = 0; i < PoolSize; i++)
                 AppendQuest(GetQuestСonfig(), i);
         }
 
@@ -47,7 +48,13 @@ namespace LittleBitGames.QuestsModule.Trackers
         private void AppendQuest(QuestConfig questConfig, int index)
         {
             var controller = CreateNewQuest(questConfig);
-            var pooledQuest = controller.AsPooledQuest(questConfig.Metadata.Category, index);
+            
+            var keyHolder = new KeyHolder(questConfig.Metadata.Key);
+            
+            var pooledQuest = controller.AsPooledQuest(
+                questConfig.Metadata.Category,
+                keyHolder,
+                index);
 
             pooledQuest.AddOnStateChangeListener(OnStateChange);
 
