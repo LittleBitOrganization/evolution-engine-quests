@@ -1,4 +1,5 @@
 using System;
+using LittleBitGames.QuestsModule.Quests.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Memento;
 using LittleBitGames.QuestsModule.Trackers.Models;
 
@@ -7,39 +8,52 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
     public class AchievementTrackerController : ITrackerController
     {
         public event Action OnGoal;
-
+        public event Action<ReadOnlyQuestProgress> OnProgressChange;
+        
         private readonly AchievementTrackerModel _model;
         private readonly AchievementTrackerModelCaretaker _caretaker;
-
+        
+        public ReadOnlyQuestProgress Progress => _model.Progress;
+        
         public AchievementTrackerController(AchievementTrackerModel model)
             => _model = model;
+        
 
         public void StartTracking()
         {
             Subscribe();
-            OnValueChange(_model.TrackableSlot.Value);
+            OnTrackableValueChange(_model.TrackableSlot.Value);
         }
 
         private void Subscribe()
         {
             OnGoal += Unsubscribe;
-            _model.TrackableSlot.OnValueChange += OnValueChange;
+
+            _model.TrackableSlot.OnValueChange += OnTrackableValueChange;
+            _model.OnProgressChange += OnModelProgressChange;
         }
 
         private void Unsubscribe()
         {
             OnGoal -= Unsubscribe;
-            _model.TrackableSlot.OnValueChange -= OnValueChange;
+
+            _model.TrackableSlot.OnValueChange -= OnTrackableValueChange;
+            _model.OnProgressChange -= OnModelProgressChange;
         }
 
-        private void OnValueChange(double newValue)
+        private void OnTrackableValueChange(double newValue)
         {
-            var delta = newValue - _model.CurrentValue;
+            var progress = _model.Progress;
 
-            if (delta > 0 && _model.TargetValue > 0 || delta < 0 && _model.TargetValue < 0)
-                _model.CurrentValue += Math.Abs(delta);
+            var delta = newValue - progress.CurrentValue;
 
-            if (_model.CurrentValue >= _model.TargetValue) OnGoal?.Invoke();
+            if (delta > 0 && progress.TargetValue > 0 || delta < 0 && progress.TargetValue < 0)
+                _model.UpdateCurrentValue(progress.CurrentValue + Math.Abs(delta));
+        }
+
+        private void OnModelProgressChange(ReadOnlyQuestProgress progress)
+        {
+            if (progress.CurrentValue >= progress.TargetValue) OnGoal?.Invoke();
         }
     }
 }

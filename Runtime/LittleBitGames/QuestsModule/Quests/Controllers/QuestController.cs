@@ -9,6 +9,8 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
     {
         public event Action<QuestState> OnStateChange;
 
+        public event Action<QuestProgress> OnProgressChange;
+
         private readonly IQuestModel _model;
         
         private readonly QuestModelCaretaker _questModelCaretaker;

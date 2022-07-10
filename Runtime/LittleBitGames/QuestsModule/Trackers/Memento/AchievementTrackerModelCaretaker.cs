@@ -7,7 +7,6 @@ namespace LittleBitGames.QuestsModule.Trackers.Memento
     {
         private readonly StorageData<AchievementTrackerModelMemento> _storageData;
         private readonly IAchievementTrackerModel _model;
-        private const string DataNamingPrefix = "Tracking";
 
         public AchievementTrackerModelCaretaker(
             IAchievementTrackerModel model,

@@ -8,18 +8,19 @@ namespace LittleBitGames.QuestsModule.Trackers
     public class PooledQuest : IDisposable
     {
         public IQuestController Controller { get; }
-        public IQuestCategory Category { get; }
-        public int Index { get; }
+        public QuestMetadata Metadata { get; }
         public IKeyHolder KeyHolder { get; }
+        
+        public int IndexInPool { get; }
 
         private Action<QuestState, PooledQuest> _onStateChangeDelegate;
         
 
-        public PooledQuest(IQuestController controller, IQuestCategory category, IKeyHolder keyHolder, int index)
+        public PooledQuest(IQuestController controller, QuestMetadata metadata, IKeyHolder keyHolder, int indexInPool)
         {
             Controller = controller;
-            Category = category;
-            Index = index;
+            Metadata = metadata;
+            IndexInPool = indexInPool;
             KeyHolder = keyHolder;
         }
 

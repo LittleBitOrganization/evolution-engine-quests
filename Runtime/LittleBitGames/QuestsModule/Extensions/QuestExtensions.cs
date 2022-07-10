@@ -7,7 +7,7 @@ namespace LittleBitGames.QuestsModule.Extensions
 {
     public static class QuestExtensions
     {
-        public static PooledQuest AsPooledQuest(this IQuestController controller, IQuestCategory category,
-            IKeyHolder keyHolder, int indexInPool) => new(controller, category, keyHolder, indexInPool);
+        public static PooledQuest AsPooledQuest(this IQuestController controller, QuestMetadata metadata,
+            IKeyHolder keyHolder, int indexInPool) => new(controller, metadata, keyHolder, indexInPool);
     }
 }

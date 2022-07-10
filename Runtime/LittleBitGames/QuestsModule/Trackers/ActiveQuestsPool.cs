@@ -52,20 +52,22 @@ namespace LittleBitGames.QuestsModule.Trackers
             var keyHolder = new KeyHolder(questConfig.Metadata.Key);
             
             var pooledQuest = controller.AsPooledQuest(
-                questConfig.Metadata.Category,
+                questConfig.Metadata,
                 keyHolder,
                 index);
 
             pooledQuest.AddOnStateChangeListener(OnStateChange);
-
+            
             _quests[index] = pooledQuest;
+            
+            OnQuestPooled?.Invoke(pooledQuest);
         }
 
         private void OnStateChange(QuestState state, PooledQuest pooledQuest)
         {
             if (state is not QuestState.Done) return;
 
-            AppendQuest(GetQuestСonfig(), pooledQuest.Index);
+            AppendQuest(GetQuestСonfig(), pooledQuest.IndexInPool);
 
             pooledQuest.Dispose();
         }
