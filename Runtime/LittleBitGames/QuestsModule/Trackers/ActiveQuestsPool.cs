@@ -49,6 +49,8 @@ namespace LittleBitGames.QuestsModule.Trackers
 
         private void AppendQuest(QuestConfig questConfig, int index)
         {
+            if (questConfig is null) return;
+            
             var controller = CreateNewQuest(questConfig);
             controller.Activate();
 
