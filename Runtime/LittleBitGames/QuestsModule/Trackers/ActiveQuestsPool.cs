@@ -29,11 +29,9 @@ namespace LittleBitGames.QuestsModule.Trackers
 
             _selector = selector;
             _questFactory = questFactory;
-
-            AppendInitialQuests();
         }
 
-        private void AppendInitialQuests()
+        public void AppendInitialQuests()
         {
             for (var i = 0; i < PoolSize; i++)
                 AppendQuest(GetQuestСonfig(), i);
