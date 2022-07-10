@@ -6,10 +6,11 @@ using LittleBitGames.QuestsModule.Extensions;
 using LittleBitGames.QuestsModule.Factories;
 using LittleBitGames.QuestsModule.Quests.Controllers;
 using LittleBitGames.QuestsModule.Quests.Metadata;
+using Zenject;
 
 namespace LittleBitGames.QuestsModule.Trackers
 {
-    public class ActiveQuestsPool
+    public class ActiveQuestsPool : IInitializable
     {
         public const int PoolSize = 3;
 
@@ -31,7 +32,10 @@ namespace LittleBitGames.QuestsModule.Trackers
             _questFactory = questFactory;
         }
 
-        public void AppendInitialQuests()
+        public void Initialize()
+            => AppendInitialQuests();
+
+        private void AppendInitialQuests()
         {
             for (var i = 0; i < PoolSize; i++)
                 AppendQuest(GetQuestСonfig(), i);
@@ -46,18 +50,18 @@ namespace LittleBitGames.QuestsModule.Trackers
         private void AppendQuest(QuestConfig questConfig, int index)
         {
             var controller = CreateNewQuest(questConfig);
-            
+
             var keyHolder = new KeyHolder(questConfig.Metadata.Key);
-            
+
             var pooledQuest = controller.AsPooledQuest(
                 questConfig.Metadata,
                 keyHolder,
                 index);
 
             pooledQuest.AddOnStateChangeListener(OnStateChange);
-            
+
             _quests[index] = pooledQuest;
-            
+
             OnQuestPooled?.Invoke(pooledQuest);
         }
 
