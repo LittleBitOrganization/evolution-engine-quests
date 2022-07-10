@@ -10,7 +10,7 @@ using Zenject;
 
 namespace LittleBitGames.QuestsModule.Trackers
 {
-    public class ActiveQuestsPool 
+    public class ActiveQuestsPool
     {
         public const int PoolSize = 3;
 
@@ -50,6 +50,7 @@ namespace LittleBitGames.QuestsModule.Trackers
         private void AppendQuest(QuestConfig questConfig, int index)
         {
             var controller = CreateNewQuest(questConfig);
+            controller.Activate();
 
             var keyHolder = new KeyHolder(questConfig.Metadata.Key);
 
@@ -57,7 +58,7 @@ namespace LittleBitGames.QuestsModule.Trackers
                 questConfig.Metadata,
                 keyHolder,
                 index);
-
+            
             pooledQuest.AddOnStateChangeListener(OnStateChange);
 
             _quests[index] = pooledQuest;
