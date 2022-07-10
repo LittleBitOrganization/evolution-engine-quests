@@ -8,18 +8,17 @@ namespace LittleBitGames.QuestsModule.Quests.Memento
     [Serializable]
     public class QuestModelMemento : Data
     {
-        [SerializeField]
-        private string stringState;
+        [SerializeField] private string stringState;
 
-        public QuestModelMemento() {}
+        public QuestModelMemento()
+            => SetState(QuestState.Pending);
 
         public QuestState State => (QuestState) Enum.Parse(typeof(QuestState), stringState);
 
         public QuestModelMemento(QuestState state)
             => SetState(state);
 
-        public void SetState(QuestState state) 
+        public void SetState(QuestState state)
             => stringState = state.ToString();
-
     }
 }
