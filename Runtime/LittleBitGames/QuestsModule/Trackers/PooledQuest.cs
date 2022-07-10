@@ -10,11 +10,11 @@ namespace LittleBitGames.QuestsModule.Trackers
         public IQuestController Controller { get; }
         public QuestMetadata Metadata { get; }
         public IKeyHolder KeyHolder { get; }
-        
+
         public int IndexInPool { get; }
 
         private Action<QuestState, PooledQuest> _onStateChangeDelegate;
-        
+
 
         public PooledQuest(IQuestController controller, QuestMetadata metadata, IKeyHolder keyHolder, int indexInPool)
         {
@@ -22,14 +22,12 @@ namespace LittleBitGames.QuestsModule.Trackers
             Metadata = metadata;
             IndexInPool = indexInPool;
             KeyHolder = keyHolder;
-        }
 
-        public void AddOnStateChangeListener(Action<QuestState, PooledQuest> callback)
-        {
             Controller.OnStateChange += OnStateChange;
-
-            _onStateChangeDelegate = callback;
         }
+
+        public void AddOnStateChangeListener(Action<QuestState, PooledQuest> callback) =>
+            _onStateChangeDelegate += callback;
 
         private void OnStateChange(QuestState state)
             => _onStateChangeDelegate?.Invoke(state, this);
