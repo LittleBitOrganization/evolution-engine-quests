@@ -8,23 +8,22 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
     public class QuestController : IQuestController
     {
         public event Action<QuestState> OnStateChange;
+        public event Action<ReadOnlyQuestProgress> OnProgressChange;
 
-        public event Action<QuestProgress> OnProgressChange;
+        public ReadOnlyQuestProgress Progress => _model.GoalTracker.Progress;
 
         private readonly IQuestModel _model;
-        
         private readonly QuestModelCaretaker _questModelCaretaker;
 
         public QuestController(IQuestModel model, ICreator creator)
         {
             _model = model;
-        
+
             _questModelCaretaker = creator.Instantiate<QuestModelCaretaker>(model);
             _questModelCaretaker.RestoreModel();
 
             Subscribe();
         }
-        
 
         public void Activate()
         {
@@ -43,12 +42,14 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
 
         private void Subscribe()
         {
+            _model.GoalTracker.OnProgressChange += OnModelProgressChange;
             _model.GoalTracker.OnGoal += CompleteQuest;
             _model.OnStateChange += OnModelStateChange;
         }
 
         private void Unsubscribe()
         {
+            _model.GoalTracker.OnProgressChange -= OnModelProgressChange;
             _model.GoalTracker.OnGoal -= CompleteQuest;
             _model.OnStateChange -= OnModelStateChange;
         }
@@ -58,9 +59,13 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
             OnStateChange?.Invoke(state);
 
             _questModelCaretaker.BackupModel();
-        
+
             if (state.Equals(QuestState.Done)) Unsubscribe();
         }
+
+        private void OnModelProgressChange(ReadOnlyQuestProgress progress)
+            => OnProgressChange?.Invoke(progress);
+
 
         private void CompleteQuest()
         {

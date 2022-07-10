@@ -5,9 +5,10 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
 {
     public interface IQuestController
     {
-        event Action<QuestState> OnStateChange;
-        
-        void Activate();
-        void TakeReward();
+        public event Action<QuestState> OnStateChange;
+        public event Action<ReadOnlyQuestProgress> OnProgressChange;
+        public ReadOnlyQuestProgress Progress { get; }
+        public void Activate();
+        public void TakeReward();
     }
 }
