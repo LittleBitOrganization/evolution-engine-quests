@@ -10,7 +10,7 @@ using Zenject;
 
 namespace LittleBitGames.QuestsModule.Trackers
 {
-    public class ActiveQuestsPool : IInitializable
+    public class ActiveQuestsPool 
     {
         public const int PoolSize = 3;
 
