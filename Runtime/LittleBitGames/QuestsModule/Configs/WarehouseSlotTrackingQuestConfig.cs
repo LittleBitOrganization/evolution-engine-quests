@@ -1,7 +1,7 @@
 using System.IO;
+using Infrastructure.New;
 using LittleBit.Modules.Description;
 using LittleBit.Modules.Warehouse.Configs;
-using LittleBit.Modules.Warehouse.Configs.Infrastructure.New;
 using LittleBitGames.QuestsModule.Trackers.Models;
 using NaughtyAttributes;
 using UnityEngine;
