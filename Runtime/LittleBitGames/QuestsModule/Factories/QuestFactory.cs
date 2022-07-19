@@ -21,7 +21,7 @@ namespace LittleBitGames.QuestsModule.Factories
         public IQuestController Create<T>(T config) where T : QuestConfig
         {
             var keyHolder = _creator.Instantiate<KeyHolder>(config.Metadata.Key);
-            var rewardModel = _rewardFactory.Create(config.RewardData);
+            var rewardModel = _rewardFactory.Create(config.Metadata.RewardData);
             var goalTracker = _trackerProvider.Create(config);
             
             var model = _creator.Instantiate<QuestModel>(

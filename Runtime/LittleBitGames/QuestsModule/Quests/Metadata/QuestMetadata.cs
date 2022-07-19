@@ -1,4 +1,5 @@
 using System;
+using LittleBitGames.QuestsModule.Rewards;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -17,7 +18,9 @@ namespace LittleBitGames.QuestsModule.Quests.Metadata
 
         [field: SerializeField, ShowAssetPreview]
         public Sprite Icon { get; private set; }
-
+        
+        [field: SerializeField] public CurrencyRewardData RewardData { get; private set; }
+        
         internal void SetKey(string key)
             => Key = key;
     }
