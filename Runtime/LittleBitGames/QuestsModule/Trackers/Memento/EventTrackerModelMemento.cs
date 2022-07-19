@@ -7,7 +7,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Memento
     [Serializable]
     public class EventTrackerModelMemento : Data
     {
-        [field: SerializeField] public bool EventFired { get; }
+        [field: SerializeField] public bool EventFired { get; private set; }
 
         public EventTrackerModelMemento(bool eventFired)
             => EventFired = eventFired;
