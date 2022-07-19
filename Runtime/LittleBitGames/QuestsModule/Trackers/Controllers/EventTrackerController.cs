@@ -23,7 +23,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
             _model = model;
             _questChannel = questChannel;
 
-            _progress = new(0, 1);
+            _progress = new(model.IsEventFired ? 1 : 0, 1);
         }
 
         public void StartTracking() => Subscribe();
@@ -35,6 +35,8 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
         private void OnEventFired(QuestEventData data)
         {
             if (!data.Equals(_model.QuestEventData)) return;
+            
+            _model.SetEventFired();
             
             HandleGoal();
             
