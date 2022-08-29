@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using LittleBit.Modules.CoreModule;
@@ -6,6 +7,7 @@ using LittleBit.Modules.Description.ResourceGenerator;
 using LittleBit.Modules.Warehouse.Configs;
 using LittleBitGames.QuestsModule.Collections;
 using LittleBitGames.QuestsModule.Extensions;
+using LittleBitGames.QuestsModule.Trackers;
 using LittleBitGames.QuestsModule.Trackers.Collections;
 using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Memento;
@@ -44,11 +46,16 @@ namespace LittleBitGames.QuestsModule.Factories
 
         private ITrackerController CreateWarehouseSlotTracker(IWarehouseSlotsTrackingData trackingData)
         {
-            var trackables = trackingData.WarehouseConfigs
-                .Select(x => GetWarehouseSlotAsTrackable(x.Config, trackingData.ResourceConfig))
-                .Where(x => x is not null)
-                .ToArray();
+            var filteredConfigs = trackingData.WarehouseConfigs
+                .Where(x => x)
+                .Select(x => x.Config);
 
+            var trackablesComposition = new TrackablesComposition();
+            
+            foreach (var config in filteredConfigs)
+                GetWarehouseSlotAsTrackableWhenAdded(config, trackingData.ResourceConfig,
+                    trackable => trackablesComposition.AddTrackable(trackable));
+            
             var warehouseSlotKey = trackingData.WarehouseConfigs
                 .Select(x => x.Config.GetKey())
                 .Aggregate(Path.Combine);
@@ -57,7 +64,7 @@ namespace LittleBitGames.QuestsModule.Factories
 
             var trackableSlotKey = Path.Combine(warehouseSlotKey, resourceKey);
 
-            return CreateTracker(trackingData, trackables.AggregateToComposition(), trackableSlotKey);
+            return CreateTracker(trackingData, trackablesComposition, trackableSlotKey);
         }
 
         private ITrackerController CreateAchievementSlotTracker(
@@ -83,6 +90,11 @@ namespace LittleBitGames.QuestsModule.Factories
 
         private ITrackable GetWarehouseSlotAsTrackable(WarehouseConfig warehouseConfig, IResourceConfig resourceConfig)
             => _warehousesContainer.TryGetItem(warehouseConfig).GetSlotTrackable(resourceConfig);
+
+        private void GetWarehouseSlotAsTrackableWhenAdded(WarehouseConfig warehouseConfig,
+            IResourceConfig resourceConfig, Action<ITrackable> onAdded) =>
+            _warehousesContainer.GetItemWhenAdded(warehouseConfig,
+                _ => onAdded?.Invoke(GetWarehouseSlotAsTrackable(warehouseConfig, resourceConfig)));
 
         private ITrackable GetAchievementSlotAsTrackable(IAchievementSlotTrackingData data)
             => _achievementSlots.TryGetItem(data.AchievementSlotKeyHolder.GetKey());
