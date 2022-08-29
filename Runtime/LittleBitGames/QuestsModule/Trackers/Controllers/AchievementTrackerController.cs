@@ -46,6 +46,8 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
 
         private void OnModelProgressChange(ReadOnlyQuestProgress progress)
         {
+            OnProgressChange?.Invoke(progress);
+            
             if (progress.CurrentValue >= progress.TargetValue) OnGoal?.Invoke();
         }
     }
