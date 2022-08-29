@@ -57,7 +57,7 @@ namespace LittleBitGames.QuestsModule.Trackers
             var keyHolder = new KeyHolder(questConfig.Metadata.Key);
 
             var pooledQuest = controller.AsPooledQuest(
-                questConfig.Metadata,
+                questConfig,
                 keyHolder,
                 index);
             
