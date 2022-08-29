@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using LittleBit.Modules.CoreModule;
@@ -10,6 +11,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
     {
         private const string Prefix = "achievement/";
         public ReadOnlyDictionary<string, AchievementSlotModel> Items => new(_items);
+        public event Action<string, AchievementSlotModel> OnItemAdded;
 
         private readonly Dictionary<string, AchievementSlotModel> _items;
         
@@ -26,7 +28,23 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
             
             return _items.ContainsKey(formattedKey) ? _items[formattedKey] : AddNewSlot(formattedKey);
         }
-        
+
+        public void GetItemWhenAdded(string key, Action<AchievementSlotModel> onAdded)
+        {
+            if (_items.ContainsKey(key))
+            {
+                onAdded?.Invoke(_items[key]);
+                return;
+            }
+
+            OnItemAdded += (id, slot) =>
+            {
+                if (id != key) return;
+                
+                onAdded?.Invoke(slot);
+            };
+        }
+
         public void TryRemoveItem(string key)
         {
             var formattedKey = FormatKey(key);
@@ -41,6 +59,8 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
             var slot = new AchievementSlotModel(new KeyHolder(key));
 
             _items.Add(key, slot);
+            
+            OnItemAdded?.Invoke(key, slot);
 
             return slot;
         }

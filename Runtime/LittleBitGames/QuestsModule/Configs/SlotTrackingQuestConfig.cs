@@ -1,3 +1,4 @@
+using Infrastructure.New;
 using LittleBitGames.QuestsModule.Trackers.Metadata;
 using UnityEngine;
 

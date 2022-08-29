@@ -1,6 +1,11 @@
 using System.IO;
+using System.Linq;
 using LittleBit.Modules.CoreModule;
+using LittleBit.Modules.Description;
+using LittleBit.Modules.Description.ResourceGenerator;
+using LittleBit.Modules.Warehouse.Configs;
 using LittleBitGames.QuestsModule.Collections;
+using LittleBitGames.QuestsModule.Extensions;
 using LittleBitGames.QuestsModule.Trackers.Collections;
 using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Memento;
@@ -33,21 +38,26 @@ namespace LittleBitGames.QuestsModule.Factories
                 CreateAchievementSlotTracker(achievementSlotTrackingData,
                     GetAchievementSlotAsTrackable(achievementSlotTrackingData)),
 
-            IWarehouseSlotTrackingData warehouseSlotTrackingData =>
-                CreateWarehouseSlotTracker(warehouseSlotTrackingData,
-                    GetWarehouseSlotAsTrackable(warehouseSlotTrackingData))
+            IWarehouseSlotsTrackingData warehouseSlotTrackingData =>
+                CreateWarehouseSlotTracker(warehouseSlotTrackingData)
         };
 
-        private ITrackerController CreateWarehouseSlotTracker(
-            IWarehouseSlotTrackingData trackingData,
-            ITrackable trackable)
+        private ITrackerController CreateWarehouseSlotTracker(IWarehouseSlotsTrackingData trackingData)
         {
-            var warehouseSlotKey = trackingData.WarehouseConfig.GetKey();
+            var trackables = trackingData.WarehouseConfigs
+                .Select(x => GetWarehouseSlotAsTrackable(x.Config, trackingData.ResourceConfig))
+                .Where(x => x is not null)
+                .ToArray();
+
+            var warehouseSlotKey = trackingData.WarehouseConfigs
+                .Select(x => x.Config.GetKey())
+                .Aggregate(Path.Combine);
+
             var resourceKey = trackingData.ResourceConfig.GetKey();
 
             var trackableSlotKey = Path.Combine(warehouseSlotKey, resourceKey);
 
-            return CreateTracker(trackingData, trackable, trackableSlotKey);
+            return CreateTracker(trackingData, trackables.AggregateToComposition(), trackableSlotKey);
         }
 
         private ITrackerController CreateAchievementSlotTracker(
@@ -71,8 +81,8 @@ namespace LittleBitGames.QuestsModule.Factories
             return controller;
         }
 
-        private ITrackable GetWarehouseSlotAsTrackable(IWarehouseSlotTrackingData data)
-            => _warehousesContainer.TryGetItem(data.WarehouseConfig).GetSlotTrackable(data.ResourceConfig);
+        private ITrackable GetWarehouseSlotAsTrackable(WarehouseConfig warehouseConfig, IResourceConfig resourceConfig)
+            => _warehousesContainer.TryGetItem(warehouseConfig).GetSlotTrackable(resourceConfig);
 
         private ITrackable GetAchievementSlotAsTrackable(IAchievementSlotTrackingData data)
             => _achievementSlots.TryGetItem(data.AchievementSlotKeyHolder.GetKey());
