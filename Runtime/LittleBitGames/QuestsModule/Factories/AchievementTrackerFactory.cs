@@ -11,6 +11,7 @@ using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Memento;
 using LittleBitGames.QuestsModule.Trackers.Metadata;
 using LittleBitGames.QuestsModule.Trackers.Models;
+using LittleBitGames.QuestsModule.Trackers.ProgressCalculators;
 
 namespace LittleBitGames.QuestsModule.Factories
 {
@@ -49,11 +50,11 @@ namespace LittleBitGames.QuestsModule.Factories
                 .Select(x => x.Config);
 
             var trackablesComposition = new TrackablesComposition();
-            
+
             foreach (var config in filteredConfigs)
                 GetWarehouseSlotAsTrackableWhenAdded(config, trackingData.ResourceConfig,
                     trackable => trackablesComposition.AddTrackable(trackable));
-            
+
             var warehouseSlotKey = trackingData.WarehouseConfigs
                 .Select(x => x.Config.GetKey())
                 .Aggregate(Path.Combine);
@@ -79,12 +80,22 @@ namespace LittleBitGames.QuestsModule.Factories
         {
             var keyHolder = _keyHolderFactory.Create(trackingData, trackableKey);
 
+            var progressSetter = GetProgressSetter(trackingData);
             var model = _creator.Instantiate<AchievementTrackerModel>(trackable, trackingData, keyHolder);
             var caretaker = _creator.Instantiate<AchievementTrackerModelCaretaker>(model);
-            var controller = _creator.Instantiate<AchievementTrackerController>(model);
+            var controller = _creator.Instantiate<AchievementTrackerController>(model, progressSetter);
 
             return controller;
         }
+
+        private IProgressSetter GetProgressSetter<T>(T trackingData) where T : ISlotTrackingData =>
+            trackingData.UpdateMethod switch
+            {
+                ProgressUpdateMethod.IncrementValue => new IncrementalProgressSetter(),
+                ProgressUpdateMethod.SetCurrentValue => new CurrentValueProgressSetter(),
+                ProgressUpdateMethod.SetValuesDelta => new DeltaProgressSetter(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
         private ITrackable GetWarehouseSlotAsTrackable(WarehouseConfig warehouseConfig, IResourceConfig resourceConfig)
             => _warehousesContainer.TryGetItem(warehouseConfig).GetSlotTrackable(resourceConfig);
