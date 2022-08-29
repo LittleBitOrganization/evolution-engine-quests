@@ -11,7 +11,7 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
             
             var newValue = progress.TargetValue > 0 ? Math.Max(0, value) : Math.Min(0, value);
             
-            trackerModel.UpdateCurrentValue(newValue);
+            trackerModel.UpdateCurrentValue(progress.CurrentValue + newValue);
         }
     }
 }
