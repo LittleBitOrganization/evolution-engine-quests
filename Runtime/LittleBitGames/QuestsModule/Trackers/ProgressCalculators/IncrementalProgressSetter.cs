@@ -5,13 +5,18 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
 {
     public class IncrementalProgressSetter : IProgressSetter
     {
+        private double _prevValue;
+
         public void UpdateProgress(AchievementTrackerModel trackerModel, double value)
         {
             var progress = trackerModel.Progress;
-            
-            var newValue = progress.TargetValue > 0 ? Math.Max(0, value) : Math.Min(0, value);
-            
-            trackerModel.UpdateCurrentValue(progress.CurrentValue + newValue);
+
+            var delta = value - _prevValue;
+
+            if (delta > 0 && progress.TargetValue > 0 || delta < 0 && progress.TargetValue < 0)
+                trackerModel.UpdateCurrentValue(progress.CurrentValue + Math.Abs(delta));
+
+            _prevValue = value;
         }
     }
 }

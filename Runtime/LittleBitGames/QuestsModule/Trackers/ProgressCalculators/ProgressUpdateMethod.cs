@@ -4,6 +4,5 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
     {
         IncrementValue = 1 << 0,
         SetCurrentValue = 1 << 1,
-        SetValuesDelta = 1 << 2
     }
 }

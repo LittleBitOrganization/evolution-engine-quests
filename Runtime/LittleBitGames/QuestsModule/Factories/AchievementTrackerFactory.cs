@@ -93,7 +93,6 @@ namespace LittleBitGames.QuestsModule.Factories
             {
                 ProgressUpdateMethod.IncrementValue => new IncrementalProgressSetter(),
                 ProgressUpdateMethod.SetCurrentValue => new CurrentValueProgressSetter(),
-                ProgressUpdateMethod.SetValuesDelta => new DeltaProgressSetter(),
                 _ => throw new ArgumentOutOfRangeException()
             };
 
