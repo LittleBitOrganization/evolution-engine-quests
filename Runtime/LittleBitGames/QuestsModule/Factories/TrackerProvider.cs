@@ -6,7 +6,7 @@ using LittleBitGames.QuestsModule.Trackers.Metadata;
 
 namespace LittleBitGames.QuestsModule.Factories
 {
-    public abstract class TrackerProvider : ITrackerFactory<ISlotTrackingData>
+    public abstract class TrackerProvider : ITrackerProvider
     {
         private readonly Dictionary<Type, object> _trackerFactories;
         private readonly MethodInfo _createMethod;

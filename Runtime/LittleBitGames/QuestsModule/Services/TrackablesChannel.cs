@@ -3,7 +3,7 @@ using LittleBitGames.QuestsModule.Trackers.Collections;
 
 namespace LittleBitGames.QuestsModule.Services
 {
-    public class TrackablesChannel : IAchievementsChannel
+    public class TrackablesChannel : ITrackablesChannel
     {
         private readonly TrackablesStorage _slots;
 
