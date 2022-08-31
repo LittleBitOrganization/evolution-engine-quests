@@ -31,6 +31,7 @@ namespace LittleBitGames.QuestsModule.Trackers
         public void AddTrackable(ITrackable trackable)
         {
             _trackables.Add(trackable);
+            OnValueChange?.Invoke(Value);
             SubscribeToTrackable(trackable);
         }
     }

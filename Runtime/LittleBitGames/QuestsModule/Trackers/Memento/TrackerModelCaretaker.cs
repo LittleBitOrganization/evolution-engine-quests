@@ -1,4 +1,5 @@
 using LittleBit.Modules.CoreModule;
+using LittleBitGames.QuestsModule.Quests.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Models;
 
 namespace LittleBitGames.QuestsModule.Trackers.Memento
@@ -23,9 +24,9 @@ namespace LittleBitGames.QuestsModule.Trackers.Memento
 
 
         private void Subscribe() =>
-            _model.Trackable.OnValueChange += OnSlotValueChange;
+            _model.OnProgressChange += OnSlotValueChange;
 
-        private void OnSlotValueChange(double value)
+        private void OnSlotValueChange(ReadOnlyQuestProgress progress)
             => Backup();
 
 

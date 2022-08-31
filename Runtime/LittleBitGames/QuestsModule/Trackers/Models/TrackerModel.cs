@@ -38,6 +38,6 @@ namespace LittleBitGames.QuestsModule.Trackers.Models
             => new(_progress.CurrentValue);
 
         public void Restore(AchievementTrackerModelMemento data)
-            => UpdateCurrentValue(data.CurrentValue);
+            => _progress.CurrentValue = data.CurrentValue;
     }
 }
