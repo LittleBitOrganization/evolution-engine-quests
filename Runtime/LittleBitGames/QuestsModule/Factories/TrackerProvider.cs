@@ -20,7 +20,7 @@ namespace LittleBitGames.QuestsModule.Factories
 
         public ITrackerController Create(ISlotTrackingData data)
         {
-            var dataType = data.GetType().GetInterfaces().First();
+            var dataType = data.GetType().GetInterfaces().Where(t => t != typeof(ISlotTrackingData))!.First();
 
             return !_trackerFactories.ContainsKey(dataType) ? null : InvokeCreateMethod(data);
         }
