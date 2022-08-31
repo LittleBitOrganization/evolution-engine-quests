@@ -1,47 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Metadata;
 
 namespace LittleBitGames.QuestsModule.Factories
 {
-    public class TrackerProvider : ITrackerProvider
+    public abstract class TrackerProvider : ITrackerFactory<ISlotTrackingData>
     {
-        private readonly IAchievementTrackerFactory _achievementTrackerFactory;
-        private readonly IEventTrackerFactory _eventTrackerFactory;
-        private readonly Dictionary<ITrackingData, ITrackerController> _cachedTrackers;
+        private readonly Dictionary<Type, object> _trackerFactories;
+        private readonly MethodInfo _createMethod;
 
-        public TrackerProvider(ICreator creator)
+        public TrackerProvider(Dictionary<Type, object> trackerFactories)
         {
-            _cachedTrackers = new();
-            _achievementTrackerFactory = creator.Instantiate<AchievementTrackerFactory>();
-            _eventTrackerFactory = creator.Instantiate<EventTrackerFactory>();
+            _trackerFactories = trackerFactories;
+            _createMethod = GetType().GetMethod(nameof(CreateControllerUsingFactory));
         }
 
-        public ITrackerController Create<T>(T data) where T : ITrackingData
-            => data switch
-            {
-                IEventTrackingData eventTrackerData => GetEventTracker(eventTrackerData),
-                ISlotTrackingData slotTrackingData => GetAchievementTracker(slotTrackingData),
-                _ => throw new ArgumentOutOfRangeException(nameof(data), data, null)
-            };
-
-        private ITrackerController GetCachedTracker(ITrackingData data)
-            => _cachedTrackers.ContainsKey(data) ? _cachedTrackers[data] : null;
-
-        private ITrackerController CreateTracker<T>(T data, ITrackerFactory<T> factory) where T : ITrackingData
+        public ITrackerController Create(ISlotTrackingData data)
         {
-            var trackerController = factory.Create(data);
+            var dataType = data.GetType();
 
-            _cachedTrackers.Add(data, trackerController);
-
-            return trackerController;
+            return !_trackerFactories.ContainsKey(dataType) ? null : InvokeCreateMethod(data);
         }
 
-        private ITrackerController GetEventTracker(IEventTrackingData data) =>
-            GetCachedTracker(data) ?? CreateTracker(data, _eventTrackerFactory);
+        private ITrackerController InvokeCreateMethod(ISlotTrackingData data)
+        {
+            var genericMethod = _createMethod.MakeGenericMethod(data.GetType());
 
-        private ITrackerController GetAchievementTracker(ISlotTrackingData data) =>
-            GetCachedTracker(data) ?? CreateTracker(data, _achievementTrackerFactory);
+            return (ITrackerController) genericMethod.Invoke(this, new object[] {data});
+        }
+
+        private ITrackerController CreateControllerUsingFactory<TData>(ISlotTrackingData data) =>
+            ((ITrackerFactory<TData>) _trackerFactories[data.GetType()]).Create((TData) data);
     }
 }

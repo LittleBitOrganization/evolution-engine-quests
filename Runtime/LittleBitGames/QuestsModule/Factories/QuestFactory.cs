@@ -9,20 +9,20 @@ namespace LittleBitGames.QuestsModule.Factories
     {
         private readonly ICreator _creator;
         private readonly IRewardFactory _rewardFactory;
-        private readonly ITrackerProvider _trackerProvider;
+        private readonly TrackerProvider _trackerFactory;
         
         public QuestFactory(ICreator creator)
         {
             _creator = creator;
             _rewardFactory = new RewardFactory(creator);
-            _trackerProvider = new TrackerProvider(creator);
+            _trackerFactory = _creator.Instantiate<TrackerProvider>();
         }
 
         public IQuestController Create<T>(T config) where T : QuestConfig
         {
             var keyHolder = _creator.Instantiate<KeyHolder>(config.Metadata.Key);
             var rewardModel = _rewardFactory.Create(config.Metadata.RewardData);
-            var goalTracker = _trackerProvider.Create(config);
+            var goalTracker = _trackerFactory.Create(config);
             
             var model = _creator.Instantiate<QuestModel>(
                 keyHolder,

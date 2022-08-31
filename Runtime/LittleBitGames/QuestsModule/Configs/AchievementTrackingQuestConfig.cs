@@ -9,10 +9,10 @@ using UnityEngine;
 namespace LittleBitGames.QuestsModule.Configs
 {
     [CreateAssetMenu(menuName = "Configs/Quests/AchievementQuestConfig", fileName = "AchievementQuestConfig")]
-    public class AchievementTrackingQuestConfig : SlotTrackingQuestConfig, IAchievementSlotTrackingData
+    public class AchievementTrackingQuestConfig : QuestConfig, IAchievementSlotTrackingData
     {
         [SerializeField] private string achievementSlotKey;
-        public IKeyHolder AchievementSlotKeyHolder => new KeyHolder(achievementSlotKey);
+        public IKeyHolder AchievementKeyHolder => new KeyHolder(achievementSlotKey);
 
         [Button]
         private void GenerateKey()
@@ -22,7 +22,7 @@ namespace LittleBitGames.QuestsModule.Configs
             var key = Path.Combine(
                 prefix,
                 TrackRelativity.ToString()[..3].ToLower(),
-                AchievementSlotKeyHolder.GetKey(),
+                AchievementKeyHolder.GetKey(),
                 TargetValue.ToString());
 
             Metadata.SetKey(key);

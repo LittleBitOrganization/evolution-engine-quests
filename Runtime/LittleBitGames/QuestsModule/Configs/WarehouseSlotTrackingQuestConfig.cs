@@ -9,7 +9,7 @@ using UnityEngine;
 namespace LittleBitGames.QuestsModule.Configs
 {
     [CreateAssetMenu(menuName = "Configs/Quests/WarehouseQuestConfig", fileName = "WarehouseQuestConfig")]
-    public class WarehouseSlotsTrackingQuestConfig : SlotTrackingQuestConfig, IWarehouseSlotsTrackingData
+    public class WarehouseSlotTrackingQuestConfig : QuestConfig, IWarehouseSlotTrackingData
     {
         [SerializeField] private ResourceConfigInterfaceContainer resourceConfig;
 

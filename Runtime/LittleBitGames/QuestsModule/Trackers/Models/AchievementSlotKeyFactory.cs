@@ -5,7 +5,7 @@ using LittleBitGames.QuestsModule.Trackers.Metadata;
 
 namespace LittleBitGames.QuestsModule.Trackers.Models
 {
-    public class AchievementModelKeyHolderFactory
+    public class AchievementSlotKeyFactory
     {
         private const string DataNamingPrefix = "AchievementTrackerModel";
 

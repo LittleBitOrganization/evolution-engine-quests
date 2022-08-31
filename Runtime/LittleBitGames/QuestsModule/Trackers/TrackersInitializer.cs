@@ -19,15 +19,15 @@ namespace LittleBitGames.QuestsModule.Trackers
 
         private void CreateTrackers()
         {
-            var matchingQuests = _questLibrary.Search<SlotTrackingQuestConfig>(QuestAskingAbsoluteTracking);
+            var matchingQuests = _questLibrary.Search<QuestConfig>(QuestAskingAbsoluteTracking);
 
             foreach (var quest in matchingQuests) CreateTrackerForQuest(quest);
         }
 
-        private static bool QuestAskingAbsoluteTracking(SlotTrackingQuestConfig config)
+        private static bool QuestAskingAbsoluteTracking(QuestConfig config)
             => config.TrackRelativity.Equals(TrackRelativity.Absolute);
 
-        private void CreateTrackerForQuest(SlotTrackingQuestConfig config)
+        private void CreateTrackerForQuest(QuestConfig config)
             => _trackerProvider.Create(config);
     }
 }
