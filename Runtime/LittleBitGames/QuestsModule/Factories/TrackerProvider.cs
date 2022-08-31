@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Metadata;
@@ -19,7 +20,7 @@ namespace LittleBitGames.QuestsModule.Factories
 
         public ITrackerController Create(ISlotTrackingData data)
         {
-            var dataType = data.GetType();
+            var dataType = data.GetType().GetInterfaces().First();
 
             return !_trackerFactories.ContainsKey(dataType) ? null : InvokeCreateMethod(data);
         }
