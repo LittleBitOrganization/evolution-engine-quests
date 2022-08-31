@@ -7,7 +7,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Memento
     [Serializable]
     public class AchievementTrackerModelMemento : Data
     {
-        [field: SerializeField] public double CurrentValue { get; }
+        [field: SerializeField] public double CurrentValue { get; private set; }
 
         public AchievementTrackerModelMemento(double currentValue)
             => CurrentValue = currentValue;
