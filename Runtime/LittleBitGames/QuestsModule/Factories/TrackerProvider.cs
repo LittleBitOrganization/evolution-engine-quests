@@ -22,12 +22,12 @@ namespace LittleBitGames.QuestsModule.Factories
         {
             var dataType = data.GetType().GetInterfaces().Where(t => t != typeof(ISlotTrackingData))!.First();
 
-            return !_trackerFactories.ContainsKey(dataType) ? null : InvokeCreateMethod(data);
+            return !_trackerFactories.ContainsKey(dataType) ? null : InvokeCreateMethod(data, dataType);
         }
 
-        private ITrackerController InvokeCreateMethod(ISlotTrackingData data)
+        private ITrackerController InvokeCreateMethod(ISlotTrackingData data, Type dataType)
         {
-            var genericMethod = _createMethod.MakeGenericMethod(data.GetType());
+            var genericMethod = _createMethod.MakeGenericMethod(dataType);
 
             return (ITrackerController) genericMethod.Invoke(this, new object[] {data});
         }
