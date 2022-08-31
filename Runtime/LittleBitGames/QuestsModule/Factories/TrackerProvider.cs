@@ -29,10 +29,10 @@ namespace LittleBitGames.QuestsModule.Factories
         {
             var genericMethod = _createMethod.MakeGenericMethod(dataType);
 
-            return (ITrackerController) genericMethod.Invoke(this, new object[] {data});
+            return (ITrackerController) genericMethod.Invoke(this, new object[] {data, dataType});
         }
 
-        private ITrackerController CreateControllerUsingFactory<TData>(ISlotTrackingData data) =>
-            ((ITrackerFactory<TData>) _trackerFactories[data.GetType()]).Create((TData) data);
+        private ITrackerController CreateControllerUsingFactory<TData>(ISlotTrackingData data, Type dataType) =>
+            ((ITrackerFactory<TData>) _trackerFactories[dataType]).Create((TData) data);
     }
 }
