@@ -21,7 +21,7 @@ namespace LittleBitGames.QuestsModule.Quests.Metadata
         
         [field: SerializeField] public CurrencyRewardData RewardData { get; private set; }
         
-        internal void SetKey(string key)
+        public void SetKey(string key)
             => Key = key;
     }
 }
