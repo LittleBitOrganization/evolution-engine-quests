@@ -31,10 +31,8 @@ namespace LittleBitGames.QuestsModule.Factories
         protected ITrackerController CreateTracker<T>(T trackingData, ITrackable trackable)
             where T : ITrackingData
         {
-            var trackerKeyHolder = new KeyHolder(trackingData.TrackerKey);
-
             var progressSetter = GetProgressSetter(trackingData);
-            var model = _creator.Instantiate<TrackerModel>(trackable, trackingData, trackerKeyHolder);
+            var model = _creator.Instantiate<TrackerModel>(trackable, trackingData);
             var caretaker = _creator.Instantiate<TrackerModelCaretaker>(model);
             var controller = _creator.Instantiate<TrackerController>(model, progressSetter);
 
