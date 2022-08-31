@@ -8,7 +8,18 @@ using LittleBitGames.QuestsModule.Trackers.ProgressCalculators;
 
 namespace LittleBitGames.QuestsModule.Factories
 {
-    public abstract class TrackerFactory<T> : ITrackerFactory<T> where T : ISlotTrackingData
+    public abstract class TrackerFactory
+    {
+        protected IProgressSetter GetProgressSetter<T>(T trackingData) where T : ISlotTrackingData =>
+            trackingData.UpdateMethod switch
+            {
+                ProgressUpdateMethod.IncrementValue => new IncrementalProgressSetter(),
+                ProgressUpdateMethod.SetCurrentValue => new CurrentValueProgressSetter(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+    }
+
+    public abstract class TrackerFactory<T> : TrackerFactory, ITrackerFactory<T> where T : ISlotTrackingData
     {
         private readonly AchievementSlotKeyFactory _keyFactory;
         private readonly ICreator _creator;
@@ -30,13 +41,5 @@ namespace LittleBitGames.QuestsModule.Factories
 
             return controller;
         }
-
-        protected IProgressSetter GetProgressSetter<T>(T trackingData) where T : ISlotTrackingData =>
-            trackingData.UpdateMethod switch
-            {
-                ProgressUpdateMethod.IncrementValue => new IncrementalProgressSetter(),
-                ProgressUpdateMethod.SetCurrentValue => new CurrentValueProgressSetter(),
-                _ => throw new ArgumentOutOfRangeException()
-            };
     }
 }
