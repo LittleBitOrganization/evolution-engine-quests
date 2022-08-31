@@ -13,7 +13,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
         
         private readonly TrackerModel _model;
         private readonly IProgressSetter _progressSetter;
-        private readonly AchievementTrackerModelCaretaker _caretaker;
+        private readonly TrackerModelCaretaker _caretaker;
         
         public ReadOnlyQuestProgress Progress => _model.Progress;
         public TrackerController(TrackerModel model, IProgressSetter progressSetter) =>

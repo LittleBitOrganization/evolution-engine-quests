@@ -2,7 +2,7 @@ using System;
 
 namespace LittleBitGames.QuestsModule.Services
 {
-    public interface ITrackablesChannel
+    public interface IAchievementsChannel
     {
         void SubscribeToAchievement(string key, Action<double> onValueChangeListener);
         void UnsubscribeFromAchievement(string key, Action<double> onValueChangeListener);

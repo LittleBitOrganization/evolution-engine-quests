@@ -3,12 +3,12 @@ using LittleBitGames.QuestsModule.Trackers.Models;
 
 namespace LittleBitGames.QuestsModule.Trackers.Memento
 {
-    public class AchievementTrackerModelCaretaker
+    public class TrackerModelCaretaker
     {
         private readonly StorageData<AchievementTrackerModelMemento> _storageData;
         private readonly ITrackerModel _model;
 
-        public AchievementTrackerModelCaretaker(
+        public TrackerModelCaretaker(
             ITrackerModel model,
             IDataStorageService dataStorageService)
         {

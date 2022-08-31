@@ -15,8 +15,7 @@ namespace LittleBitGames.QuestsModule.Factories
     {
         private readonly IWarehousesContainer _warehousesContainer;
 
-        public WarehouseTrackerFactory(AchievementSlotKeyFactory keyFactory, ICreator creator,
-            IWarehousesContainer warehousesContainer) : base(keyFactory, creator) =>
+        public WarehouseTrackerFactory(ICreator creator, IWarehousesContainer warehousesContainer) : base(creator) =>
             _warehousesContainer = warehousesContainer;
 
         public override ITrackerController Create(IWarehouseTrackingData data)
@@ -29,22 +28,10 @@ namespace LittleBitGames.QuestsModule.Factories
 
             foreach (var config in filteredConfigs)
             {
-                GetTrackableWhenAdded(config, data.ResourceConfig,
-                    trackable => trackablesComposition.AddTrackable(trackable));
+                GetTrackableWhenAdded(config, data.ResourceConfig, trackable => trackablesComposition.AddTrackable(trackable));
             }
 
-            return CreateTracker(data, trackablesComposition, GenerateKey(data));
-        }
-
-        private static string GenerateKey(IWarehouseTrackingData data)
-        {
-            var warehouseSlotKey = data.WarehouseConfigs
-                .Select(x => x.Config.GetKey())
-                .Aggregate(Path.Combine);
-
-            var resourceKey = data.ResourceConfig.GetKey();
-
-            return Path.Combine(warehouseSlotKey, resourceKey);
+            return CreateTracker(data, trackablesComposition);
         }
 
         private ITrackable GetTrackable(WarehouseConfig warehouseConfig, IResourceConfig resourceConfig)

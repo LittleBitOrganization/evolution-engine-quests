@@ -1,5 +1,6 @@
 using System;
 using LittleBit.Modules.CoreModule;
+using LittleBitGames.QuestsModule.Common;
 using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Memento;
 using LittleBitGames.QuestsModule.Trackers.Metadata;
@@ -21,22 +22,20 @@ namespace LittleBitGames.QuestsModule.Factories
 
     public abstract class TrackerFactory<T> : TrackerFactory, ITrackerFactory<T> where T : ITrackingData
     {
-        private readonly AchievementSlotKeyFactory _keyFactory;
         private readonly ICreator _creator;
 
-        protected TrackerFactory(AchievementSlotKeyFactory keyFactory, ICreator creator) =>
-            (_keyFactory, _creator) = (keyFactory, creator);
+        protected TrackerFactory(ICreator creator) => _creator = creator;
 
         public abstract ITrackerController Create(T data);
 
-        protected ITrackerController CreateTracker<T>(T trackingData, ITrackable trackable, string trackableKey)
+        protected ITrackerController CreateTracker<T>(T trackingData, ITrackable trackable)
             where T : ITrackingData
         {
-            var keyHolder = _keyFactory.Create(trackingData, trackableKey);
+            var trackerKeyHolder = new KeyHolder(trackingData.TrackerKey);
 
             var progressSetter = GetProgressSetter(trackingData);
-            var model = _creator.Instantiate<TrackerModel>(trackable, trackingData, keyHolder);
-            var caretaker = _creator.Instantiate<AchievementTrackerModelCaretaker>(model);
+            var model = _creator.Instantiate<TrackerModel>(trackable, trackingData, trackerKeyHolder);
+            var caretaker = _creator.Instantiate<TrackerModelCaretaker>(model);
             var controller = _creator.Instantiate<TrackerController>(model, progressSetter);
 
             return controller;

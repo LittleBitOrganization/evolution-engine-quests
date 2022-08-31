@@ -3,16 +3,17 @@ using LittleBitGames.QuestsModule.Trackers.Collections;
 
 namespace LittleBitGames.QuestsModule.Services
 {
-    public class TrackablesChannel : ITrackablesChannel
+    public class AchievementsChannel : IAchievementsChannel
     {
-        private readonly TrackablesStorage _slots;
+        private readonly AchievementsContainer _slots;
 
-        public TrackablesChannel(TrackablesStorage slots)
+        public AchievementsChannel(AchievementsContainer slots)
             => _slots = slots;
+        
         public void SubscribeToAchievement(string key, Action<double> onValueChangeListener)
-            => _slots.TryGetItem(key).OnValueChange += onValueChangeListener;
+            => _slots.GetAchievement(key).OnValueChange += onValueChangeListener;
     
         public void UnsubscribeFromAchievement(string key, Action<double> onValueChangeListener)
-            => _slots.TryGetItem(key).OnValueChange -= onValueChangeListener;
+            => _slots.GetAchievement(key).OnValueChange -= onValueChangeListener;
     }
 }
