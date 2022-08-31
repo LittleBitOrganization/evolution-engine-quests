@@ -9,13 +9,13 @@ namespace LittleBitGames.QuestsModule.Factories
     {
         private readonly ICreator _creator;
         private readonly IRewardFactory _rewardFactory;
-        private readonly TrackerProvider _trackerFactory;
+        private readonly ITrackerProvider _trackerFactory;
         
-        public QuestFactory(ICreator creator)
+        public QuestFactory(ICreator creator, ITrackerProvider trackerProvider)
         {
             _creator = creator;
             _rewardFactory = new RewardFactory(creator);
-            _trackerFactory = _creator.Instantiate<TrackerProvider>();
+            _trackerFactory = trackerProvider;
         }
 
         public IQuestController Create<T>(T config) where T : QuestConfig
