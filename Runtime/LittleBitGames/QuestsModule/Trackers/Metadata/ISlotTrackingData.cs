@@ -2,7 +2,7 @@ using LittleBitGames.QuestsModule.Trackers.ProgressCalculators;
 
 namespace LittleBitGames.QuestsModule.Trackers.Metadata
 {
-    public interface ISlotTrackingData : ITrackingData
+    public interface ISlotTrackingData
     {
         public double TargetValue { get; }
         
