@@ -28,6 +28,9 @@ namespace LittleBitGames.QuestsModule.Trackers
             => config.TrackRelativity.Equals(TrackRelativity.Absolute);
 
         private void CreateTrackerForQuest(QuestConfig config)
-            => _trackerProvider.Create(config);
+        {
+            var tracker = _trackerProvider.Create(config);
+            tracker.StartTracking();
+        }
     }
 }
