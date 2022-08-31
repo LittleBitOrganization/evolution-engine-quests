@@ -9,7 +9,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Models
     {
         private const string DataNamingPrefix = "AchievementTrackerModel";
 
-        public IKeyHolder Create(ISlotTrackingData trackingData, string trackableSlotKey)
+        public IKeyHolder Create(ITrackingData trackingData, string trackableSlotKey)
             => new KeyHolder(Path.Combine(
                 DataNamingPrefix,
                 trackingData.TrackRelativity.ToString(),

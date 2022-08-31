@@ -7,22 +7,22 @@ using LittleBitGames.QuestsModule.Trackers.Metadata;
 
 namespace LittleBitGames.QuestsModule.Trackers.Models
 {
-    public class AchievementTrackerModel : IAchievementTrackerModel
+    public class TrackerModel : ITrackerModel
     {
         public event Action<ReadOnlyQuestProgress> OnProgressChange;
-        public ITrackable TrackableSlot { get; }
-        public IKeyHolder KeyHolder { get; }
+        public ITrackable Trackable { get; }
+        public string Key { get; }
         public TrackRelativity TrackRelativity { get; }
         public ReadOnlyQuestProgress Progress
             => _progress.AsReadOnly();
 
         private readonly QuestProgress _progress;
 
-        public AchievementTrackerModel(ITrackable trackable, ISlotTrackingData trackingData, IKeyHolder keyHolder)
+        public TrackerModel(ITrackable trackable, ITrackingData trackingData)
         {
-            TrackableSlot = trackable;
+            Trackable = trackable;
             TrackRelativity = trackingData.TrackRelativity;
-            KeyHolder = keyHolder;
+            Key = trackingData.TrackerKey;
 
             _progress = new(trackable.Value, trackingData.TargetValue);
         }

@@ -11,7 +11,7 @@ using LittleBitGames.QuestsModule.Trackers.Models;
 
 namespace LittleBitGames.QuestsModule.Factories
 {
-    public class WarehouseTrackerFactory : TrackerFactory<IWarehouseSlotTrackingData>
+    public class WarehouseTrackerFactory : TrackerFactory<IWarehouseTrackingData>
     {
         private readonly IWarehousesContainer _warehousesContainer;
 
@@ -19,7 +19,7 @@ namespace LittleBitGames.QuestsModule.Factories
             IWarehousesContainer warehousesContainer) : base(keyFactory, creator) =>
             _warehousesContainer = warehousesContainer;
 
-        public override ITrackerController Create(IWarehouseSlotTrackingData data)
+        public override ITrackerController Create(IWarehouseTrackingData data)
         {
             var filteredConfigs = data.WarehouseConfigs
                 .Where(x => x)
@@ -36,7 +36,7 @@ namespace LittleBitGames.QuestsModule.Factories
             return CreateTracker(data, trackablesComposition, GenerateKey(data));
         }
 
-        private static string GenerateKey(IWarehouseSlotTrackingData data)
+        private static string GenerateKey(IWarehouseTrackingData data)
         {
             var warehouseSlotKey = data.WarehouseConfigs
                 .Select(x => x.Config.GetKey())

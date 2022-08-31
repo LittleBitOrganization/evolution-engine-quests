@@ -4,7 +4,7 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
 {
     public class CurrentValueProgressSetter : IProgressSetter
     {
-        public void UpdateProgress(AchievementTrackerModel trackerModel, double value) =>
+        public void UpdateProgress(TrackerModel trackerModel, double value) =>
             trackerModel.UpdateCurrentValue(value);
     }
 }

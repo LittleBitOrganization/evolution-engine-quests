@@ -4,7 +4,7 @@ using LittleBitGames.QuestsModule.Trackers.Metadata;
 
 namespace LittleBitGames.QuestsModule.Trackers.Models
 {
-    public interface IWarehouseSlotTrackingData : ISlotTrackingData
+    public interface IWarehouseTrackingData : ITrackingData
     {
         public IResourceConfig ResourceConfig { get; }
         

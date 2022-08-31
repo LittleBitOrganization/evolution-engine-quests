@@ -6,26 +6,24 @@ namespace LittleBitGames.QuestsModule.Trackers.Memento
     public class AchievementTrackerModelCaretaker
     {
         private readonly StorageData<AchievementTrackerModelMemento> _storageData;
-        private readonly IAchievementTrackerModel _model;
+        private readonly ITrackerModel _model;
 
         public AchievementTrackerModelCaretaker(
-            IAchievementTrackerModel model,
+            ITrackerModel model,
             IDataStorageService dataStorageService)
         {
             _model = model;
 
             _storageData = dataStorageService
-                .CreateDataWrapper<AchievementTrackerModelMemento>(this, model.KeyHolder.GetKey());
+                .CreateDataWrapper<AchievementTrackerModelMemento>(this, model.Key);
 
             Restore();
             Subscribe();
         }
 
 
-        private void Subscribe()
-        {
-            _model.TrackableSlot.OnValueChange += OnSlotValueChange;
-        }
+        private void Subscribe() =>
+            _model.Trackable.OnValueChange += OnSlotValueChange;
 
         private void OnSlotValueChange(double value)
             => Backup();

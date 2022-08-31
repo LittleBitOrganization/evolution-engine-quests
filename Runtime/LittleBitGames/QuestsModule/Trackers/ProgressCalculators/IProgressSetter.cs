@@ -4,6 +4,6 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
 {
     public interface IProgressSetter
     {
-        public void UpdateProgress(AchievementTrackerModel trackerModel, double value);
+        public void UpdateProgress(TrackerModel trackerModel, double value);
     }
 }

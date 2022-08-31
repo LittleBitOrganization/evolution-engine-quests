@@ -10,7 +10,7 @@ namespace LittleBitGames.QuestsModule.Factories
 {
     public abstract class TrackerFactory
     {
-        protected IProgressSetter GetProgressSetter<T>(T trackingData) where T : ISlotTrackingData =>
+        protected IProgressSetter GetProgressSetter<T>(T trackingData) where T : ITrackingData =>
             trackingData.UpdateMethod switch
             {
                 ProgressUpdateMethod.IncrementValue => new IncrementalProgressSetter(),
@@ -19,7 +19,7 @@ namespace LittleBitGames.QuestsModule.Factories
             };
     }
 
-    public abstract class TrackerFactory<T> : TrackerFactory, ITrackerFactory<T> where T : ISlotTrackingData
+    public abstract class TrackerFactory<T> : TrackerFactory, ITrackerFactory<T> where T : ITrackingData
     {
         private readonly AchievementSlotKeyFactory _keyFactory;
         private readonly ICreator _creator;
@@ -30,14 +30,14 @@ namespace LittleBitGames.QuestsModule.Factories
         public abstract ITrackerController Create(T data);
 
         protected ITrackerController CreateTracker<T>(T trackingData, ITrackable trackable, string trackableKey)
-            where T : ISlotTrackingData
+            where T : ITrackingData
         {
             var keyHolder = _keyFactory.Create(trackingData, trackableKey);
 
             var progressSetter = GetProgressSetter(trackingData);
-            var model = _creator.Instantiate<AchievementTrackerModel>(trackable, trackingData, keyHolder);
+            var model = _creator.Instantiate<TrackerModel>(trackable, trackingData, keyHolder);
             var caretaker = _creator.Instantiate<AchievementTrackerModelCaretaker>(model);
-            var controller = _creator.Instantiate<AchievementTrackerController>(model, progressSetter);
+            var controller = _creator.Instantiate<TrackerController>(model, progressSetter);
 
             return controller;
         }

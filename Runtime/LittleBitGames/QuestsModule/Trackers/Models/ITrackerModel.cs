@@ -7,12 +7,13 @@ using LittleBitGames.QuestsModule.Trackers.Metadata;
 
 namespace LittleBitGames.QuestsModule.Trackers.Models
 {
-    public interface IAchievementTrackerModel : IOriginator<AchievementTrackerModelMemento>
+    public interface ITrackerModel : IOriginator<AchievementTrackerModelMemento>
     {
         public event Action<ReadOnlyQuestProgress> OnProgressChange;
-        public ITrackable TrackableSlot { get; }
-        public IKeyHolder KeyHolder { get; }
+        public string Key { get; }
         public TrackRelativity TrackRelativity { get; }
+        
+        public ITrackable Trackable { get; }
         public ReadOnlyQuestProgress Progress { get; }
 
         public void UpdateCurrentValue(double newValue);

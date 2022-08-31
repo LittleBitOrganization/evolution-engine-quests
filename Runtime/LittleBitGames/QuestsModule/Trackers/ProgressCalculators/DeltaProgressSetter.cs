@@ -5,7 +5,7 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
 {
     public class DeltaProgressSetter : IProgressSetter
     {
-        public void UpdateProgress(AchievementTrackerModel trackerModel, double value)
+        public void UpdateProgress(TrackerModel trackerModel, double value)
         {
             var progress = trackerModel.Progress;
 

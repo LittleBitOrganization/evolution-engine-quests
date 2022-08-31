@@ -7,7 +7,7 @@ namespace LittleBitGames.QuestsModule.Trackers.ProgressCalculators
     {
         private double _prevValue;
 
-        public void UpdateProgress(AchievementTrackerModel trackerModel, double value)
+        public void UpdateProgress(TrackerModel trackerModel, double value)
         {
             var progress = trackerModel.Progress;
 

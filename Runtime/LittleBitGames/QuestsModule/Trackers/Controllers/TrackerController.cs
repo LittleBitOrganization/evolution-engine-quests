@@ -6,30 +6,30 @@ using LittleBitGames.QuestsModule.Trackers.ProgressCalculators;
 
 namespace LittleBitGames.QuestsModule.Trackers.Controllers
 {
-    public class AchievementTrackerController : ITrackerController
+    public class TrackerController : ITrackerController
     {
         public event Action OnGoal;
         public event Action<ReadOnlyQuestProgress> OnProgressChange;
         
-        private readonly AchievementTrackerModel _model;
+        private readonly TrackerModel _model;
         private readonly IProgressSetter _progressSetter;
         private readonly AchievementTrackerModelCaretaker _caretaker;
         
         public ReadOnlyQuestProgress Progress => _model.Progress;
-        public AchievementTrackerController(AchievementTrackerModel model, IProgressSetter progressSetter) =>
+        public TrackerController(TrackerModel model, IProgressSetter progressSetter) =>
             (_model, _progressSetter) = (model, progressSetter);
 
         public void StartTracking()
         {
             Subscribe();
-            OnTrackableValueChange(_model.TrackableSlot.Value);
+            OnTrackableValueChange(_model.Trackable.Value);
         }
 
         private void Subscribe()
         {
             OnGoal += Unsubscribe;
 
-            _model.TrackableSlot.OnValueChange += OnTrackableValueChange;
+            _model.Trackable.OnValueChange += OnTrackableValueChange;
             _model.OnProgressChange += OnModelProgressChange;
         }
 
@@ -37,7 +37,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Controllers
         {
             OnGoal -= Unsubscribe;
 
-            _model.TrackableSlot.OnValueChange -= OnTrackableValueChange;
+            _model.Trackable.OnValueChange -= OnTrackableValueChange;
             _model.OnProgressChange -= OnModelProgressChange;
         }
 
