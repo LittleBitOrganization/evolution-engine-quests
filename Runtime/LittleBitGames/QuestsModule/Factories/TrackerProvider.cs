@@ -15,7 +15,7 @@ namespace LittleBitGames.QuestsModule.Factories
         public TrackerProvider(Dictionary<Type, object> trackerFactories)
         {
             _trackerFactories = trackerFactories;
-            _createMethod = GetType().GetMethod(nameof(CreateControllerUsingFactory));
+            _createMethod = GetType().GetMethod(nameof(CreateControllerUsingFactory),  BindingFlags.NonPublic | BindingFlags.Instance);
         }
 
         public ITrackerController Create(ISlotTrackingData data)
