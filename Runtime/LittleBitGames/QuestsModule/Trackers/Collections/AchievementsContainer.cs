@@ -16,13 +16,17 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
 
         public AchievementsContainer() => _slots = new();
 
-        public void AddAchievement(string key, AchievementSlot slot)
+        public AchievementSlot AddAchievement(string key)
         {
-            if (_slots.ContainsKey(key)) return;
+            if (_slots.ContainsKey(key)) return _slots[key];
 
+            var slot = new AchievementSlot();
+            
             _slots.Add(key, slot);
 
             OnAchievementAdded?.Invoke(key, slot);
+
+            return slot;
         }
 
         internal AchievementSlot GetAchievement(string key) =>
