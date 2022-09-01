@@ -24,12 +24,11 @@ namespace LittleBitGames.QuestsModule.Factories
                 .Where(x => x)
                 .Select(x => x.Config);
 
-            var trackablesComposition = new TrackablesComposition();
+            var trackablesComposition = 
+                new CompositeTrackable(list => list.Sum(t => t.Value));
 
             foreach (var config in filteredConfigs)
-            {
                 GetTrackableWhenAdded(config, data.ResourceConfig, trackable => trackablesComposition.AddTrackable(trackable));
-            }
 
             return CreateTracker(data, trackablesComposition);
         }
