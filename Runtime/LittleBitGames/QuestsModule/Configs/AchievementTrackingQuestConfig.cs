@@ -1,6 +1,5 @@
 using System.IO;
 using LittleBit.Modules.Description;
-using LittleBit.Modules.Description.ResourceGenerator;
 using LittleBitGames.QuestsModule.Common;
 using LittleBitGames.QuestsModule.Trackers.Metadata;
 using NaughtyAttributes;

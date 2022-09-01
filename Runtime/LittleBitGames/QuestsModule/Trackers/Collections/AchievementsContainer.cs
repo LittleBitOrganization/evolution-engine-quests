@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
 using LittleBit.Modules.CoreModule;
-using LittleBitGames.QuestsModule.Trackers.Controllers;
 using LittleBitGames.QuestsModule.Trackers.Models;
 
 namespace LittleBitGames.QuestsModule.Trackers.Collections
 {
-    public class AchievementsContainer
+    public class AchievementsContainer : IOriginator<AchievementsContainerMemento>
     {
         public event Action<string, AchievementSlot> OnAchievementAdded;
 
-        private readonly Dictionary<string, AchievementSlot> _slots;
+        private SerializableDictionary<string, AchievementSlot> _slots;
+
+        internal IReadOnlyList<AchievementSlot> Slots => _slots.Values.ToList();
 
         public AchievementsContainer() => _slots = new();
 
@@ -23,8 +24,13 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
 
             OnAchievementAdded?.Invoke(key, slot);
         }
-        
+
         internal AchievementSlot GetAchievement(string key) =>
             _slots.ContainsKey(key) ? _slots[key] : null;
+
+        public AchievementsContainerMemento Backup() => new(_slots);
+
+        public void Restore(AchievementsContainerMemento data) =>
+            _slots = data.Slots;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace LittleBitGames.QuestsModule.Trackers.Models
 {
+    [Serializable]
     public class AchievementSlot : ITrackable
     {
         [field: SerializeField] public double Value { get; private set; }
