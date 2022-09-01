@@ -9,11 +9,26 @@ namespace LittleBitGames.QuestsModule.Services
 
         public AchievementsChannel(AchievementsContainer slots)
             => _slots = slots;
-        
-        public void SubscribeToAchievement(string key, Action<double> onValueChangeListener)
-            => _slots.GetAchievement(key).OnValueChange += onValueChangeListener;
-    
-        public void UnsubscribeFromAchievement(string key, Action<double> onValueChangeListener)
-            => _slots.GetAchievement(key).OnValueChange -= onValueChangeListener;
+
+        public void Subscribe(string achievementSlotKey, Action<double> onValueChangeListener)
+            => _slots.GetAchievement(achievementSlotKey).OnValueChange += onValueChangeListener;
+
+        public void Unsubscribe(string achievementSlotKey, Action<double> onValueChangeListener)
+            => _slots.GetAchievement(achievementSlotKey).OnValueChange -= onValueChangeListener;
+
+        public void SetValue(string achievementSlotKey, double value)
+            => _slots.GetAchievement(achievementSlotKey).SetNewValue(value);
+
+        public void AddOne(string achievementSlotKey)
+            => _slots.GetAchievement(achievementSlotKey).AddValue(1);
+
+        public void AddValue(string achievementSlotKey, double value)
+            => _slots.GetAchievement(achievementSlotKey).AddValue(value);
+
+        public void SubtractOne(string achievementSlotKey)
+            => _slots.GetAchievement(achievementSlotKey).AddValue(-1);
+
+        public void SubtractValue(string achievementSlotKey, double value)
+            => _slots.GetAchievement(achievementSlotKey).AddValue(-value);
     }
 }

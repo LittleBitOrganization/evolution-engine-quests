@@ -9,22 +9,22 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
 {
     public class AchievementsContainer
     {
-        public ReadOnlyDictionary<string, ITrackable> Items => new(_items);
-        
-        public event Action<string, ITrackable> OnItemAdded;
+        public event Action<string, AchievementSlot> OnAchievementAdded;
 
-        private readonly Dictionary<string, ITrackable> _items;
-        
-        public void AddAchievement(string key, ITrackable trackable)
+        private readonly Dictionary<string, AchievementSlot> _slots;
+
+        public AchievementsContainer() => _slots = new();
+
+        public void AddAchievement(string key, AchievementSlot slot)
         {
-            if (_items.ContainsKey(key)) return;
+            if (_slots.ContainsKey(key)) return;
 
-            _items.Add(key, trackable);
+            _slots.Add(key, slot);
 
-            OnItemAdded?.Invoke(key, trackable);
+            OnAchievementAdded?.Invoke(key, slot);
         }
         
-        public ITrackable GetAchievement(string key) =>
-            _items.ContainsKey(key) ? _items[key] : null;
+        internal AchievementSlot GetAchievement(string key) =>
+            _slots.ContainsKey(key) ? _slots[key] : null;
     }
 }
