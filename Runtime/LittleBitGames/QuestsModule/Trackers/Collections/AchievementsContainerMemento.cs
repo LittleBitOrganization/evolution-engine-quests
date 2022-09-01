@@ -1,13 +1,15 @@
 using System;
 using LittleBit.Modules.CoreModule;
 using LittleBitGames.QuestsModule.Trackers.Models;
+using UnityEngine;
 
 namespace LittleBitGames.QuestsModule.Trackers.Collections
 {
     [Serializable]
     public class AchievementsContainerMemento : Data
     {
-        public readonly SerializableDictionary<string, AchievementSlot> Slots;
+        [field: SerializeField]
+        public SerializableDictionary<string, AchievementSlot> Slots { get; private set; }
 
         public AchievementsContainerMemento(SerializableDictionary<string, AchievementSlot> slots) =>
             Slots = slots;
