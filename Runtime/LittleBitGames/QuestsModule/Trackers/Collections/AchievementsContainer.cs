@@ -30,7 +30,6 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
 
         public AchievementsContainerMemento Backup() => new(_slots);
 
-        public void Restore(AchievementsContainerMemento data) =>
-            _slots = data.Slots;
+        public void Restore(AchievementsContainerMemento data) => _slots = data.Slots;
     }
 }
