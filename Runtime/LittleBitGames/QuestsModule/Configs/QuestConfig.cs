@@ -7,10 +7,10 @@ namespace LittleBitGames.QuestsModule.Configs
 {
     public abstract class QuestConfig : ScriptableObject, ITrackingData
     {
-        private const string Prefix = "quest-tracker/";
+        protected const string Prefix = "quest-tracker/";
         [field: SerializeField] public QuestMetadata Metadata { get; private set; }
 
-        public string TrackerKey => Prefix + Metadata.Key;
+        public virtual string TrackerKey => Prefix + Metadata.Key;
 
         [field: SerializeField]
         public double TargetValue { get; private set; }

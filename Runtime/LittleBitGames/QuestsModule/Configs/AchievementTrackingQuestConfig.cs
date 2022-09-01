@@ -14,6 +14,8 @@ namespace LittleBitGames.QuestsModule.Configs
         [SerializeField] private string achievementSlotKey;
         public IKeyHolder AchievementKeyHolder => new KeyHolder(achievementSlotKey);
 
+        public override string TrackerKey => AchievementKeyHolder.GetKey();
+
         [Button]
         private void GenerateKey()
         {
