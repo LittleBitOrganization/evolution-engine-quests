@@ -13,7 +13,7 @@ namespace LittleBitGames.QuestsModule.Factories
 
         public override ITrackerController Create(IAchievementTrackingData data)
         {
-            var slotModel = _achievementsContainer.AddAchievement(data.TrackerKey);
+            var slotModel = _achievementsContainer.AddAchievement(data.AchievementKeyHolder.GetKey());
 
             var tracker = CreateTracker(data, slotModel);
 
