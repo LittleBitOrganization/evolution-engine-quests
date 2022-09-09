@@ -1,29 +1,28 @@
 using System;
-using System.Linq.Expressions;
 using LittleBit.Modules.CoreModule;
 
 namespace LittleBitGames.QuestsModule.Trackers
 {
     [Serializable]
-    public class FieldTrackable<TParent, TField> : ITrackable where TField : IConvertible
+    public class FieldTrackable<TField> : ITrackable where TField : IConvertible
     {
-        private readonly Func<TParent, TField> _getter;
-        private readonly TParent _parent;
+        private readonly Func<TField> _getter;
+        private TField _value;
         
-        public FieldTrackable(
-            TParent parent, 
-            Expression<Func<TParent, TField>> getter, 
-            ref Action updateAction)
+        public FieldTrackable(Func<TField> getter, ref Action updateAction)
         {
-            _parent = parent;
-            _getter = getter.Compile();
+            _getter = getter;
 
-            updateAction += () => OnValueChange?.Invoke(GetValue());
+            updateAction += () =>
+            {
+                GetValue();
+                OnValueChange?.Invoke(Value);
+            };
         }
 
-        private double GetValue() => Convert.ToDouble(_getter.Invoke(_parent));
+        private void GetValue() =>  _value = _getter.Invoke();
 
-        public double Value => GetValue();
+        public double Value => Convert.ToDouble(_value);
 
         public event Action<double> OnValueChange;
     }
