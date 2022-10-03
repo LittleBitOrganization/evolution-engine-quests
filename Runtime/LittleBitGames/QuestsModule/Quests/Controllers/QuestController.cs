@@ -72,7 +72,7 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
 
         private void CompleteQuest()
         {
-            if (_model.State is not QuestState.Active or QuestState.Pending) return;
+            if (_model.State is not (QuestState.Active or QuestState.Pending)) return;
 
             _model.NextState(QuestState.Completed);
         }
