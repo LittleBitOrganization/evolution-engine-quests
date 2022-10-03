@@ -43,6 +43,8 @@ namespace LittleBitGames.QuestsModule.Quests.Controllers
 
         private void Subscribe()
         {
+            if (_model.GoalTracker.Progress.HasGoalBeenReached()) CompleteQuest();
+
             _model.GoalTracker.OnProgressChange += OnModelProgressChange;
             _model.GoalTracker.OnGoal += CompleteQuest;
             _model.OnStateChange += OnModelStateChange;
