@@ -1,7 +1,7 @@
 {
 	"name": "com.littlebitgames.quests",
 	"displayName": "Quests Module",
-	"version": "0.4.2",
+	"version": "0.4.4",
 	"description": "Quests module that will be easily integrated in your project",
 	"unity": "2021.3" 
 }

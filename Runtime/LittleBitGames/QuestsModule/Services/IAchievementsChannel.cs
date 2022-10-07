@@ -11,5 +11,6 @@ namespace LittleBitGames.QuestsModule.Services
         void AddValue(string achievementSlotKey, double value);
         void SubtractOne(string achievementSlotKey);
         void SubtractValue(string achievementSlotKey, double value);
+        double GetValue(string achievementSlotKey);
     }
 }

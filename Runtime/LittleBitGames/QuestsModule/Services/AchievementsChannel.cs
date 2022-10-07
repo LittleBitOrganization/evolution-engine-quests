@@ -30,5 +30,8 @@ namespace LittleBitGames.QuestsModule.Services
 
         public void SubtractValue(string achievementSlotKey, double value)
             => _slots.GetAchievement(achievementSlotKey).AddValue(-value);
+
+        public double GetValue(string achievementSlotKey) =>
+            _slots.GetAchievement(achievementSlotKey).Value;
     }
 }
