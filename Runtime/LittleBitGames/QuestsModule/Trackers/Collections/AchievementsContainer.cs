@@ -29,8 +29,7 @@ namespace LittleBitGames.QuestsModule.Trackers.Collections
             return slot;
         }
 
-        internal AchievementSlot GetAchievement(string key) =>
-            _slots.ContainsKey(key) ? _slots[key] : null;
+        internal AchievementSlot GetAchievement(string key) => AddAchievement(key);
 
         public AchievementsContainerMemento Backup() => new(_slots);
 
